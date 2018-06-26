@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ToDo list</title>
+	
+	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./bower_components/datepicker/css/bootstrap-datepicker3.min.css">
+
+</head>
+<body>
+	<div class="container">
+		<div class="page-header">
+			<h1>ToDo list <small>with jQuery and Bootstrap</small></h1>
+		</div>
+		<div class="text-right">
+			<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalAddTask"><span class="glyphicon glyphicon-plus"></span> Add new task</button>
+			<button type="button" class="btn btn-danger btn-lg" id="deleteAll">
+	                <span class="glyphicon glyphicon-remove"></span> Delete All
+        	        </button>
+		</div>
+		<ul class="nav nav-tabs" role="tablist">
+			<li class="active"><a href="#todo" data-toggle="tab">To Do</a></li>
+			<li><a href="#inprogress" data-toggle="tab">In progress</a></li>
+			<li><a href="#done" data-toggle="tab">Done</a></li>
+		</ul>
+		<div class="tab-content" id="task-list">
+			<div role="tabpanel" class="tab-pane active" id="todo">
+				<ul class="list-group" data-status="1"></ul>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="inprogress">
+				<ul class="list-group" data-status="2"></ul>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="done">
+				<ul class="list-group" data-status="3"></ul>
+			</div>
+		</div>
+
+	<!-- Panel -->
+	<div class="panels col-xs-4">
+        <div class="panel panel-danger">
+          <div class="panel-heading">Should be done</div>
+          <div class="panel-body">
+            Tasks count: <span class="badge" data-which="1">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="panels col-xs-4">
+        <div class="panel panel-warning">
+          <div class="panel-heading">Will be done soon</div>
+          <div class="panel-body">
+            Tasks count: <span class="badge" data-which="2">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="panels col-xs-4">
+        <div class="panel panel-success">
+          <div class="panel-heading">Already done</div>
+          <div class="panel-body">
+            Tasks count: <span class="badge" data-which="3">0</span>
+          </div>
+        </div>
+
+	
+	
+	<!-- Modal modalAddTask -->
+	
+	<div class="modal fade" id="modalAddTask" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Add task</h4>
+				</div>
+				<div class="modal-body">
+				         <form id="formAddTask">
+				            <div class="form-group">
+				              <input type="text" name="title" autocomplete="off" placeholder="Title" class="form-control">
+				            </div>
+				         <div class="form-group">
+				              <div id="sandbox-container">
+				                <div class="input-group date">
+				               <input type="text" class="form-control" name="date" placeholder="yyyy-mm-dd">
+			                  <div class="input-group-addon">
+			                      <span class="glyphicon glyphicon-calendar"></span>
+	  				  </div>
+					</div>
+					 <div class="form-group">
+						 <textarea rows="10" cols="91" name="description" placeholder="Title" class="form-control"></textarea>
+					</div>	
+			              
+		        	      </div>
+			            </div>
+			          </form>
+			        </div>
+
+				<div class="modal-footer">
+					<button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					<button class="btn btn-success" form="formAddTask">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal modalEditTask -->
+	
+	<div class="modal fade" id="modalEditTask" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Edit task</h4>
+				</div>
+        			<div class="modal-body">
+				<form id="formEditTask">
+				   <input type="hidden" name="taskId">
+ 					<div class="form-group">
+				           <input type="text" name="title" autocomplete="off" placeholder="Title" class="form-control">
+				         </div>
+			            <div class="form-group">
+			              <div id="sandbox-container">
+				     <div class="input-group date">
+					<input type="text" class="form-control" name="date" placeholder="yyyy-mm-dd">
+			              <div class="input-group-addon">
+			                    <span class="glyphicon glyphicon-calendar"></span>
+			              </div>
+			              </div>
+			              </div>
+				     </div>
+						<div class="form-group">
+							<textarea name="description" placeholder="Description" class="form-control"></textarea>
+						</div> 
+
+						<div class="form-group">
+							<select name="status" class="form-control">
+								<option value="1">To do</option>
+								<option value="2">In progress</option>
+								<option value="3">Done</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					<button class="btn btn-success" form="formEditTask">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal modalConfirm -->
+
+	<div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					Are you sure???
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					<button class="btn btn-success" id="btnConfirm">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="./bower_components/datepicker/js/bootstrap-datepicker.min.js" charset="utf-8"></script>
+	<script src="./bower_components/datepicker/locales/bootstrap-datepicker.ru.min.js" charset="utf-8"></script>
+	<script src="./js/index.js"></script>
+</body>
+</html>
